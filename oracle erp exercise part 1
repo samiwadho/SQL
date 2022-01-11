@@ -1,4 +1,4 @@
-Practice 1
+				Chapter 1
 1.	Initiate an iSQL*Plus session using the user ID and password provided by the instructor.
 Ans 		
 2.	iSQL*Plus commands access the database.
@@ -45,7 +45,7 @@ Answer :	select employee_id||','||first_name||','||last_name||','||email||','||p
 
 
 
-                                          Practice 2
+                                          Chapter 2
 
 1.	Create a query to display the last name and salary of employees earning more than $12,000.
 	Place your SQL statement in a text file named lab2_1.sql. Run your query.
@@ -183,7 +183,8 @@ from employees;
   
  Answer : SELECT lpad(salary,15,'$') SALARY
 FROM   employees;
-Chapter 3 - Part Two (continued)
+
+				Chapter 3 - Part Two (continued)
 
 9.	Display each employee’s last name, hire date, and salary review date, which is the first Monday after six months of service.
 Label the column REVIEW. Format the dates to appear in the format similar to “Monday, the Thirty-First of July, 2000.”
@@ -221,9 +222,7 @@ ORDER BY salary DESC;
 	None of the above		0	
 
 Answer: SELECT job_id, decode (job_id,'ST_CLERK', 'E','SA_REP', 'D','IT_PROG', 'C','ST_MAN', 'B','AD_PRES', 'A','0')GRADE
-FROM employees
-
-
+FROM employees;
 
 
 
@@ -291,7 +290,7 @@ Answer:	False
 
 3.	The WHERE clause restricts rows prior to inclusion in a group calculation.
 
-Answer:	False
+Answer:	True
 
 4.	Display the highest, lowest, sum, and average salary of all employees. Label the columns
 	Maximum, Minimum, Sum, and Average, respectively. Round your results to the nearest whole 	number.
