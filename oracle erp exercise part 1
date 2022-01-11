@@ -1,0 +1,364 @@
+Practice 1
+1.	Initiate an iSQL*Plus session using the user ID and password provided by the instructor.
+Ans 		
+2.	iSQL*Plus commands access the database.
+Answer:		false 
+3.	The following SELECT statement executes successfully:
+      SELECT last_name, job_id, salary AS Sal
+      FROM   employees;
+Answer:		true
+4.	The following SELECT statement executes successfully:
+      
+      SELECT * 
+      FROM   job_grades;
+Answer:		false
+5.	There are four coding errors in this statement. Can you identify them? 
+      SELECT    employee_id, last_name
+      sal x 12  ANNUAL SALARY
+      FROM      employees;
+ Answer:	(1:  ,   2:  * 3 :ANNUAL SALARY  4: sal)
+
+6.	Show the structure of the DEPARTMENTS table. Select all data from the table
+Answer 1:	 Describe departments
+Answer  2:	 select *        from departments;
+
+
+7.	Show the structure of the EMPLOYEES table. Create a query to display the last name, job code, hire date, and employee number for each employee, with employee number appearing first. Provide an alias STARTDATE for the HIRE_DATE column. Save your SQL statement to a file named lab1_7.sql.
+Answer 1:	 Describe employees
+8.	Run your query in the file lab1_7.sql
+Answer 2:	select last_name,job_id,hire_date"startdate",employee_id       from employees;
+
+
+9.	Create a query to display unique job codes from the EMPLOYEES table.
+Answer :	Select distinct(job_id)      From employees;
+
+10.	Copy the statement from lab1_7.sql into the iSQL*Plus Edit window. Name the column headings Emp #, Employee, Job, and Hire Date, respectively. Run your query again.
+Answer :	select employee_id"#emp",last_name"employee",job_id"job",hire_date"hire date" 
+from employees;
+
+11.	Display the last name concatenated with the job ID, separated by a comma and space, and name the column Employee and Title.
+Answer :	select last_name||', '||job_id "employees and title                                                                          from employees;
+
+12.	Create a query to display all the data from the EMPLOYEES table. Separate each column by a comma. Name the column THE_OUTPUT.
+Answer :	select employee_id||','||first_name||','||last_name||','||email||','||phone_number||','||job_id||','||hire_date||','||salary||','||department_id     AS "the_output"                                                                                                                               FROM EMPLOYEE;
+
+
+
+
+                                          Practice 2
+
+1.	Create a query to display the last name and salary of employees earning more than $12,000.
+	Place your SQL statement in a text file named lab2_1.sql. Run your query.
+
+Answer  :	select last_name,salary
+from employees
+where salary>12000;
+
+2.	Create a query to display the employee last name and department number for employee number 176.
+
+Answer  :	select last_name , department_id 
+from employees
+where employee_id=176;
+
+3.	Modify lab2_1.sql to display the last name and salary for all employees 
+whose salary is not in the range of $5,000 and $12,000. Place your SQL statement in a text file named lab2_3.sq
+
+Answer  :	select last_name,salary
+from employees
+where salary not between 5000 and 12000;
+
+4.	Display the employee last name, job ID, and start date of employees hired 
+between February 20, 1998, and May 1, 1998. Order the query in ascending order by start date.
+
+Answer  :	select last_name,job_id,hire_date
+from employees
+where hire_date between '20-feb-98' and '1-MAY-98';
+
+5.	Display the last name and department number of all employees in departments 20 and 50 in alphabetical order by name.
+
+Answer  : 	select last_name ,department_id
+from  employees
+where department_id IN (20 ,50);
+
+
+6.	Modify lab2_3.sql to list the last name and salary of employees 
+who earn between $5,000 and $12,000, and are in department 20 or 50. Label the columns Employee and Monthly Salary, respectively.
+Resave lab2_3.sql as lab2_6.sql. Run the statement in lab2_6.sql.	
+
+Answer  : 	select last_name "Employee",salary "Monthly Salary"
+from employees
+where salary between 5000 and 12000
+and department_id in (20,50);
+
+7.	Display the last name and hire date of every employee who was hired in 1994.
+
+Answer  :	select last_name,hire_date
+from employees
+where hire_date ='07-june-94';
+
+8.	Display the last name and job title of all employees who do not have a manager.
+
+Answer  :	select last_name ,job_id
+from employees
+where job_id not like 'IT_PROG';	
+
+9.	Display the last name, salary, and commission for all employees who earn commissions. Sort
+	data in descending order of salary and commissions
+
+Answer  :	select last_name,salary,commission_pct
+from employees
+order by commission_pct asc;
+
+10.	Display the last names of all employees where the third letter of the name is an a.
+
+Answer  :	select last_name
+from employees
+where last_name like '__a%';
+
+11.	Display the last name of all employees who have an a and an e in their last name
+Answer  :	select last_name 
+from employees
+where last_name like '_a%'
+and last_name like '_____e%';
+
+12.	Display the last name, job, and salary for all employees whose job is
+sales representative or stock clerk and whose salary is not equal to $2,500, $3,500, or $7,000
+
+Answer  :	 select last_name,job_id,salary
+from employees
+where job_id IN('ST_CLERK','SA_REP')
+AND SALARY  not in('2500','3500','7000');
+
+13.	Modify lab2_6.sql to display the last name, salary, and commission for all employees 
+whose commission amount is 20%. Resave lab2_6.sql as lab2_13.sql. Rerun the statement in lab2_13.sql.
+
+Answer  :	select last_name "Employee",salary "Monthly Salary",commission_pct
+from employees
+where salary between 5000 and 12000
+and department_id in (20,50)
+OR Commission_pct  in ('0.2');
+
+
+
+
+                        Chapter 3 - Part One
+1.	Write a query to display the current date. Label the column Date
+
+Answer  : 	select  SYSDATE  from DUAL;
+
+2.	For each employee, display the employee number, last_name, salary, and salary
+increased by 15% and expressed as a whole number. Label the column New Salary. Place your SQL statement in a text file named lab3_2.sql.
+
+Answer  :	select employee_id,last_name,salary,round(salary*1.15) "New Salary"
+from employees;
+
+3.	Run your query in the file lab3_2.sql.        
+Answer  : 	select *    from employees;
+
+4.	Modify your query lab3_2.sql to add a column that subtracts the old salary from
+	the new salary. Label the column Increase. Save the contents of the file as lab3_4.sql. Run the revised query.
+
+Answer  :	select employee_id,last_name,salary,round(salary*1.15)"New Salary",(salary*1.15)-salary"increase"
+from employees;
+Chapter 3, Part One: Overview (continued) 
+5.	Write a query that displays the employee’s last names with the first letter capitalized and all other letters lowercase, and the length of the names, for all employees whose name starts with J, A, or M. Give each column an appropriate label. Sort the results by the employees’ last names.
+        Answer  :	select initcap(last_name)"Name",length(last_name)
+from employees
+where last_name LIKE 'M%'
+OR LAST_NAME LIKE 'A%';
+Practice 3 - Part Two 
+6.	For each employee, display the employee’s last name, and calculate the number of months between today and the date the employee was hired.
+Label the column MONTHS_WORKED. Order your results by the number of months employed. Round the number of months up to the closest whole number.
+	Note: Your results will differ.
+Answer  :	SELECT last_name,round(months_between(Sysdate,hire_date)/12)"Month work"
+from employees;
+
+7.	Write a query that produces the following for each employee:
+	<employee last name> earns <salary> monthly but wants <3 times salary>. Label the column Dream Salaries.
+Answer  SELECT last_name||' earn '|| salary ||' monthly but wants '||salary*3
+from employees;
+
+8.	Create a query to display the last name and salary for all employees. Format the salary to be 15
+	characters long, left-padded with $. Label the column SALARY.
+  
+ Answer : SELECT lpad(salary,15,'$') SALARY
+FROM   employees;
+Chapter 3 - Part Two (continued)
+
+9.	Display each employee’s last name, hire date, and salary review date, which is the first Monday after six months of service.
+Label the column REVIEW. Format the dates to appear in the format similar to “Monday, the Thirty-First of July, 2000.”
+
+Answer  :	select last_name, hire_date,TO_CHAR(next_day(add_month(hire_date, 6), 'monday'),'fmday, Month DDth, YYYY')
+	from employees;
+
+10. Display the last name, hire date, and day of the week on which the employee started. Label
+	the column DAY. Order the results by the day of the week starting with Monday.
+Answer  :	select last_name , hire_date,to_char(hire_date,'DAY') DAy
+from  employees
+order by to_char(hire_date-1,'d');
+
+11. 	Create a query that displays the employees’ last names and commission amounts.
+If an employee does not earn commission, put “No Commission.” Label the column COMM.
+
+Answer  :	select last_name,NVL(to_char(commission_pct),'no commission')comm
+from employees;
+
+12. 	Create a query that displays the employees’ last names and indicates the amounts of their annual salaries with asterisks.
+Each asterisk signifies a thousand dollars. Sort the data in descending order of salary. Label the column EMPLOYEES_AND_THEIR_SALARIES.
+
+Answer  :SELECT rpad(last_name, 8)||' '|| rpad(' ', salary/1000+1, '*')
+EMPLOYEES_AND_THEIR_SALARIES
+FROM employees
+ORDER BY salary DESC;
+
+13.Using the DECODE function, write a query that displays the grade of all employees based on the value of the column JOB_ID, as per the following data:
+	Job				Grade	
+	AD_PRES			A	
+	ST_MAN			B	
+	IT_PROG			C	
+	SA_REP			D	
+	ST_CLERK			E	
+	None of the above		0	
+
+Answer: SELECT job_id, decode (job_id,'ST_CLERK', 'E','SA_REP', 'D','IT_PROG', 'C','ST_MAN', 'B','AD_PRES', 'A','0')GRADE
+FROM employees
+
+
+
+
+
+
+                                          Chapter 4 - Part One 
+
+1. 	Write a query to display the last name, department number, and department name for all employees. 
+
+Answer:		select e.last_name,e.department_id,d.department_name
+from employees e, departments d;
+
+2.	Create a unique listing of all jobs that are in department 80. Include the location of the department in the output.
+
+Answer:	select distinct(e.job_id),l.location_id
+from employees e, locations l
+where e.department_id =80;
+
+3. 	Write a query to display the employee last name, department name, location ID, and city of all employees who earn a commission.
+
+Answer:	select e.last_name,d.department_name,l.location_id,city
+from employees e, locations l,departments d;
+
+4.	Display the employee last name and department name for all employees who have an a (lowercase) in their last names. 
+Place your SQL statement in a text file named lab4_4.sql.
+
+Answer:	select e.last_name,d.department_name
+from employees e,departments d
+where e.last_name like '___a%';
+
+5.	Write a query to display the last name, job, department number, and department name for all
+	employees who work in Toronto.
+
+Answer:	SELECT e.last_name,e.job_id,e.department_id,d.department_name
+FROM   employees e, departments d,locations l
+WHERE  city like'%Toronto%'  ;
+
+6.	Display the employee last name and employee number along with their manager’s last name and 	manager number.
+Label the columns Employee, Emp#, Manager, and Mgr#, respectively.
+Place your SQL statement in a text file named lab4_6.sql.
+
+Answer:	SELECT worker.last_name"Employee",worker.employee_id"EMP#", manager.last_name"Manager",manager.employee_id"Mgr#"
+FROM   employees worker, employees manager
+WHERE  worker.manager_id = manager.employee_id
+
+7.	Modify lab4_6.sql to display all employees including King, who has no manager. Order the results by the employee number.
+Place your SQL statement in a text file named lab4_7.sql. Run the query in lab4_7.sql
+
+Answer:	SELECT worker.last_name"Employee",worker.employee_id"EMP#", manager.last_name"Manager",manager.employee_id"Mgr#"
+FROM   employees worker, employees manager
+WHERE  worker.manager_id (+)= manager.employee_id ;
+
+
+
+
+
+                                    Chapter 5
+
+Determine the validity of the following three statements. Circle either True or False.
+1.	Group functions work across many rows to produce one result per group.
+
+Answer:	True
+2.	Group functions include nulls in calculations.
+
+Answer:	False
+
+3.	The WHERE clause restricts rows prior to inclusion in a group calculation.
+
+Answer:	False
+
+4.	Display the highest, lowest, sum, and average salary of all employees. Label the columns
+	Maximum, Minimum, Sum, and Average, respectively. Round your results to the nearest whole 	number.
+  Place your SQL statement in a text file named lab5_4.sql
+
+Answer:	 select MAX(SALARY)"Maximum",MIN(SALARY)"Minimun",SUM(SALARY)"SUM",AVG(SALARY)"Average"
+from employees;
+
+5.	Modify the query in lab5_4.sql to display the minimum, maximum, sum, and average salary for each job type. 	Resave lab5_4.sql to lab5_5.sql.
+Run the statement in lab5_5.sql.
+
+Answer: 	select job_id,MAX(SALARY)"Maximum",MIN(SALARY)"Minimun",SUM(SALARY)"SUM",AVG(SALARY)"Average"
+from employees
+group by job_id;
+
+6.	Write a query to display the number of people with the same job.
+Answer:	select job_id,count(*)
+from employees
+group by job_id;
+
+7.	Determine the number of managers without listing them. Label the column Number of
+	Managers. Hint: Use the MANAGER_ID column to determine the number of managers.
+
+Answer: 	select manager_id "number of managers",COUNT(*)
+FROM EMPLOYEES
+GROUP BY manager_id;
+
+8.	Write a query that displays the difference between the highest and lowest salaries. Label the column DIFFERENCE.
+
+Answer: 	 select  max(salary)-min(salary)
+FROM EMPLOYEES;
+
+9.	Display the manager number and the salary of the lowest paid employee for that manager.
+	Exclude anyone whose manager is not known. Exclude any groups where the minimum
+	salary is $6,000 or less. Sort the output in descending order of salary.
+
+Answer:	select manager_id , max(salary)
+FROM EMPLOYEES
+group by manager_id 
+having min(salary)<=6000;
+
+
+10.	Write a query to display each department’s name, location, number of employees, and the average salary for all employees in that 
+department. Label the columns Name, Location, 
+Number of People, and Salary, respectively. Round the average salary to two decimal places.
+
+Answer: SELECT d.department_name "Name", d.location_id "Location ",
+COUNT(*) "Number of People",
+ROUND(AVG(salary),2) "Salary"
+FROM employees e, departments d
+WHERE e.department_id = d.department_id
+GROUP BY d.department_name, d.location_id;
+
+
+11.	Create a query that will display the total number of employees and, of that total, 
+the number of 	employees hired in 1995, 1996, 1997, and 1998. Create appropriate column headings.
+
+Answer: ELECT COUNT(*) total,
+SUM(DECODE(TO_CHAR(hire_date, 'YYYY'),1995,1,0))"1 995",SUM(DECODE(TO_CHAR(hire_date, 'YYYY'),1996,1,0))"1 996",
+SUM(DECODE(TO_CHAR(hire_date, 'YYYY'),1997,1,0))"1 997",SUM(DECODE(TO_CHAR(hire_date, 'YYYY'),1998,1,0))"1 998"
+FROM employees;
+
+12.	Create a matrix query to display the job, the salary for that job based on department number,
+and the total salary for that job, for departments 20, 50, 80, and 90, giving each column an 		appropriate heading.
+
+Answer:  SELECT job_id "Job",
+SUM(DECODE(department_id , 20, salary)) "Dept 20" ,SUM(DECODE(department_id , 50, salary)) "Dept 50" ,SUM(DECODE(department_id , 80, salary)) "Dept 80" ,
+SUM(DECODE(department_id , 90, salary)) "Dept 90" ,SUM(salary) "Total"
+FROM employees
+GROUP BY job_id;
