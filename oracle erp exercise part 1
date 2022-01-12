@@ -32,6 +32,9 @@ Answer 2:	select last_name,job_id,hire_date"startdate",employee_id       from em
 9.	Create a query to display unique job codes from the EMPLOYEES table.
 Answer :	Select distinct(job_id)      From employees;
 
+
+
+
 10.	Copy the statement from lab1_7.sql into the iSQL*Plus Edit window. Name the column headings Emp #, Employee, Job, and Hire Date, respectively. Run your query again.
 Answer :	select employee_id"#emp",last_name"employee",job_id"job",hire_date"hire date" 
 from employees;
@@ -361,3 +364,186 @@ SUM(DECODE(department_id , 20, salary)) "Dept 20" ,SUM(DECODE(department_id , 50
 SUM(DECODE(department_id , 90, salary)) "Dept 90" ,SUM(salary) "Total"
 FROM employees
 GROUP BY job_id;
+ 	
+ 				Chapter 6
+ 
+ 1. Write a query to display the last name and hire date of any employee in the same
+department as Zlotkey. Exclude Zlotkey.
+
+Answer: SELECT last_name, hire_date
+FROM employees
+WHERE department_id = (SELECT department_id
+FROM employees
+WHERE last_name = 'Zlotkey')
+AND last_nae <> 'Zlotkey';
+
+2. Create a query to display the employee numbers and last names of all employees who earn more than 
+the average salary. Sort the results in descending order of salary.
+
+Answer: SELECT employee_id, last_name
+FROM employees
+WHERE salary > (SELECT AVG(salary)
+FROM employees);
+3. Write a query that displays the employee numbers and last names of all employees who work in a
+department with any employee whose last name contains a u. Place your SQL statement in a text 
+file named lab6_3.sql. Run your query.
+
+Answer:	SELECT employee_id, last_name
+FROM employees
+WHERE department_id IN (SELECT department_id
+FROM employees
+WHERE last_name like '%u%');
+
+4. Display the last name, department number, and job ID of all employees whose department location ID is 1700.
+
+Answer: ELECT last_name, department_id, job_id
+FROM employees
+WHERE department_id IN (SELECT department_id
+FROM departments
+WHERE location_id = 1700);
+
+5. Display the last name and salary of every employee who reports to King.
+
+Answer:SELECT last_name, salary
+FROM employees
+WHERE manager_id = (SELECT employee_id
+FROM employees
+WHERE last_name = 'King');
+
+6. Display the department number, last name, and job ID for every employee in the Executive 
+department.
+
+Answer:SELECT department_id, last_name, job_id
+FROM employees
+WHERE department_id IN (SELECT department_id
+FROM departments
+WHERE department_name = 'Executive');
+
+7. Modify the query in lab6_3.sql to display the employee numbers, last names, and salaries of all
+employees who earn more than the average salary and who work in a department with any employee 
+with a u in their name. Resave lab6_3.sql to lab6_7.sql. Run the statement in 
+lab6_7.sql.
+Answer:SELECT employee_id, last_name, salary
+FROM employees
+WHERE department_id IN (SELECT department_id
+FROM employees
+WHERE last_name like '%u%')
+AND salary > (SELECT AVG(salary)
+FROM employees);
+				
+				Chapter 7
+Determine whether the following statements are true or false:
+1. The following statement is correct:
+DEFINE & p_val = 100
+
+Answer: fasle
+
+2. The DEFINE command is a SQL command.
+Answer: false
+
+3. Write a script file to display the employee last name, job, and hire date for all employees who
+started between a given range. Concatenate the name and job together, separated by a space
+and comma, and label the column Employees. Use the DEFINE command to provide the two 
+ranges. Use the format MM/DD/YYYY. Save the script file as lab7_3.sql.
+
+Answer:	SET ECHO OFF
+SET VERIFY OFF
+DEFINE low_date = 01/01/1998
+DEFINE high_date = 01/01/1999
+SELECT last_name ||', '|| job_id EMPLOYEES, hire_date
+FROM employees
+WHERE hire_date BETWEEN TO_DATE('&low_date', 'MM/DD/YYYY')
+AND TO_DATE('&high_date', 'MM/DD/YYYY')
+/
+UNDEFINE low_date
+UNDEFINE high_date
+SET VERIFY ON
+SET ECHO ON
+
+4. Write a script to display the employee last name, job, and department name for a given location. The
+search condition should allow for case-insensitive searches of the department location. Save the 
+script file as lab7_4.sql.
+
+Answer:	SET ECHO OFF
+SET VERIFY OFF
+COLUMN last_name HEADING "EMPLOYEE NAME"
+COLUMN department_name HEADING "DEPARTMENT NAME”
+SELECT e.last_name, e.job_id, d.department_name
+FROM employees e, departments d, locations l
+WHERE e.department_id = d.department_id
+AND l.location_id = d.location_id
+AND l.city = INITCAP('&p_location')
+/
+COLUMN last_name CLEAR
+COLUMN department_name CLEAR
+SET VERIFY ON
+SET ECHO ON
+
+5. Modify the code in lab7_4.sql to create a report containing the department name, employee last
+name, hire date, salary, and each employee’s annual salary for all employees in a given location. 
+Label the columns DEPARTMENT NAME, EMPLOYEE NAME, START DATE, SALARY, and 
+ANNUAL SALARY, placing the labels on multiple lines. Resave the script as lab7_5.sql and
+execute the commands in the script.
+
+Answer:SET ECHO OFF
+SET FEEDBACK OFF
+SET VERIFY OFF
+BREAK ON department_name
+COLUMN department_name HEADING "DEPARTMENT|NAME"
+COLUMN last_name HEADING "EMPLOYEE|NAME"
+COLUMN hire_date HEADING "START|DATE"
+COLUMN salary HEADING "SALARY" FORMAT $99,990.00
+COLUMN asal HEADING "ANNUAL|SALARY" FORMAT $99,990.00
+SELECT d.department_name, e.last_name, e.hire_date,
+e.salary, e.salary*12 asal
+FROM departments d, employees e, locations l
+WHERE e.department_id = d.department_id 
+AND d.location_id = l.location_id
+AND l.city = '&p_location'
+ORDER BY d.department_name
+/
+COLUMN department_name CLEAR
+COLUMN last_name CLEAR
+COLUMN hire_date CLEAR
+COLUMN salary CLEAR 	
+COLUMN asal CLEAR
+CLEAR BREAK
+SET VERIFY ON
+SET FEEDBACK ON
+SET ECHO ON
+
+				chapter 8
+Insert data into the MY_EMPLOYEE table.
+
+1. Run the statement in the lab8_1.sql script to build the MY_EMPLOYEE table that will be used for 
+the lab.
+
+Answer:	CREATE TABLE my_employee
+(id NUMBER(4) CONSTRAINT my_employee_id_ nn NOT NULL,
+last_name VARCHAR2(25),
+first_name VARCHAR2(25),
+userid VARCHAR2(8),
+salary NUMBER(9,2));
+
+2. Describe the structure of the MY_EMPLOYEE table to identify the column names.
+
+Answer:	DESCRIBE my_employee
+
+3. Add the first row of data to the MY_EMPLOYEE table from the following sample data. Do not list the 
+columns in the INSERT clause.
+
+Answer:	INSERT INTO my_employee
+VALUES (1, 'Patel', 'Ralph', 'rpatel', 895);
+
+4. Populate the MY_EMPLOYEE table with the second row of sample data from the preceding list. This 
+time, list the columns explicitly in the INSERT clause.
+
+Answer:	INSERT INTO my_employee (id, last_name, first_name,
+userid, salary)
+VALUES (2, 'Dancs', 'Betty', 'bdancs', 860);
+
+5. Confirm your addition to the table.
+
+Answer:	SELECT *
+FROM my_employee;
+
