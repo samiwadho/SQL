@@ -910,3 +910,103 @@ statement into a script named lab12_5.sql.
 Answer:	SELECT index_name, table_name, uniqueness
 FROM user_indexes
 WHERE table_name = 'EMP';
+
+
+		
+Practice 13 Solutions
+1. What privilege should a user be given to log on to the Oracle Server? Is this a system or an object 
+privilege?
+
+Answer:	The CREATE SESSION system privilege
+
+2. What privilege should a user be given to create tables?
+
+Answer:	The CREATE TABLE privilege
+
+3. If you create a table, who can pass along privileges to other users on your table?
+
+Answer: You can, or anyone you have given those privileges to by using the WITH GRANT 
+OPTION.
+
+4. You are the DBA. You are creating many users who require the same system privileges.
+What should you use to make your job easier?
+
+Answer:	Create a role containing the system privileges and grant the role to the users
+
+5. What command do you use to change your password?
+
+Answer:	The ALTER USER statement
+
+6. Grant another user access to your DEPARTMENTS table. Have the user grant you query access to his 
+or her DEPARTMENTS table.
+
+Answer:
+Team 2 executes the GRANT statement.
+GRANT select
+ON departments
+TO <user1>;
+Team 1 executes the GRANT statement.
+GRANT select
+ON departments
+TO <user2>;
+
+7. Query all the rows in your DEPARTMENTS table.
+
+Answer:	SELECT *
+FROM departments;
+
+8. Add a new row to your DEPARTMENTS table. Team 1 should add Education as department
+number 500. Team 2 should add Human Resources department number 510. Query the other team’s
+table.
+
+Answer:
+Team 1 executes this INSERT statement.
+INSERT INTO departments(department_id, department_name)
+VALUES (200, 'Education');
+COMMIT;
+Team 2 executes this INSERT statement.
+INSERT INTO departments(department_id, department_name)
+VALUES (210, 'Administration');
+COMMIT;
+
+9. Create a synonym for the other team’s DEPARTMENTS table.
+
+Answer:
+Team 1 creates a synonym named team2.
+CREATE SYNONYM team2
+FOR <user2>.DEPARTMENTS;
+Team 2 creates a synonym named team1.
+CREATE SYNONYM team1
+FOR <user1>. DEPARTMENTS;
+
+10. Query all the rows in the other team’s DEPARTMENTS table by using your synonym.
+Team 1 executes this SELECT statement.
+
+Answer:	SELECT *
+FROM team2;
+Team 2 executes this SELECT statement.
+SELECT *
+FROM team1;
+
+11. Query the USER_TABLES data dictionary to see information about the tables that you own.
+
+Answer:	SELECT table_name
+FROM user_tables;
+
+12. Query the ALL_TABLES data dictionary view to see information about all the tables that you
+can access. Exclude tables that you own.
+
+Answer:	SELECT table_name, owner
+FROM all_tables
+WHERE owner <> <your account>;
+
+13. Revoke the SELECT privilege from the other team.
+Team 1 revokes the privilege.
+
+Answer:REVOKE select
+ON departments
+FROM user2;
+Team 2 revokes the privilege.
+REVOKE select
+ON departments 
+FROM user1;
