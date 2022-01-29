@@ -912,8 +912,8 @@ FROM user_indexes
 WHERE table_name = 'EMP';
 
 
-		
-Practice 13 Solutions
+							chapter 13 
+
 1. What privilege should a user be given to log on to the Oracle Server? Is this a system or an object 
 privilege?
 
@@ -1010,3 +1010,327 @@ Team 2 revokes the privilege.
 REVOKE select
 ON departments 
 FROM user1;
+
+
+					
+							chapter 15 
+
+1. List the department IDs for departments that do not contain the job ID ST_CLERK, using SET
+operators.
+
+Answer :SELECT department_id
+FROM departments
+MINUS
+SELECT department_id
+FROM employees
+WHERE job_id = 'ST_CLERK';
+
+2. Display the country ID and the name of the countries that have no departments located in them, 
+using SET operators.
+
+Answer : SELECT country_id,country_name
+FROM countries
+MINUS
+SELECT l.country_id,c.country_name
+FROM locations l, countries c
+WHERE l.country_id = c.country_id;
+
+3. Produce a list of jobs for departments 10, 50, and 20, in that order. Display job ID and 
+department ID, using SET operators.
+COLUMN dummy PRINT
+
+Answer : SELECT job_id, department_id, 'x' dummy
+FROM employees
+WHERE department_id = 10
+UNION
+SELECT job_id, department_id, 'y' 
+FROM employees
+WHERE department_id = 50
+UNION
+SELECT job_id, department_id, 'z' 
+FROM employees
+WHERE department_id = 20
+ORDER BY 3;
+COLUMN dummy NOPRINT
+
+4. List the employee IDs and job IDs of those employees, who are currently in the job title that they 
+have held once before during their tenure with the company.
+
+Answer : SELECT employee_id,job_id
+FROM employees
+INTERSECT
+SELECT employee_id,job_id
+FROM job_history;
+
+5. Write a compond query that lists the following :
+• Last names and department ID of all the employees from the EMPLOYEES table, irrespective 
+of whether they belong to any department
+• Department ID and department name of all the departments from the DEPARTMENTS table,
+irrespective of whether they have employees working in them
+
+Answer : SELECT last_name,department_id,TO_CHAR(null)
+FROM employees
+UNION
+SELECT TO_CHAR(null),department_id,department_name
+FROM departments;
+				
+
+				
+						Chapter 16 
+
+1. Alter the session to set the NLS_DATE_FORMAT to DD-MON-YYYY HH24:MI:SS.
+
+Answer : ALTER SESSION SET NLS_DATE_FORMAT = 
+'DD-MON-YYYY HH24:MI:SS';
+
+2. a. Write queries to display the time zone offsets (TZ_OFFSET) for the following time zones.
+US/Pacific-New
+
+Answer : SELECT TZ_OFFSET ('US/Pacific-New') from dual;
+Singapore
+SELECT TZ_OFFSET ('Singapore') from dual;
+Egypt
+SELECT TZ_OFFSET ('Egypt') from dual;
+
+b. Alter the session to set the TIME_ZONE parameter value to the time zone offset of 
+US/Pacific-New.
+
+Answer : ALTER SESSION SET TIME_ZONE = '-8:00';
+
+c. Display the CURRENT_DATE, CURRENT_TIMESTAMP, and LOCALTIMESTAMP for this 
+session.
+
+Answer : SELECT CURRENT_DATE, CURRENT_TIMESTAMP, LOCALTIMESTAMP
+FROM DUAL; 
+
+d. Alter the session to set the TIME_ZONE parameter value to the time zone offset of 
+Singapore.
+
+Answer : ALTER SESSION SET TIME_ZONE = '+8:00';
+
+e. Display the CURRENT_DATE, CURRENT_TIMESTAMP, LOCALTIMESTAMP for this 
+session.
+
+Answer : SELECT CURRENT_DATE, CURRENT_TIMESTAMP, LOCALTIMESTAMP
+FROM DUAL;
+
+3. Write a query to display the DBTIMEZONE and SESSIONTIMEZONE.
+
+Answer :SELECT DBTIMEZONE,SESSIONTIMEZONE
+FROM DUAL;
+
+4. Write a query to extract the YEAR from HIRE_DATE column of the EMPLOYEES table for those 
+employees who work in department 80.
+
+Answer : SELECT last_name, EXTRACT (YEAR FROM HIRE_DATE)
+FROM employees
+WHERE department_id = 80;
+					
+
+					Chapter 17
+1. Write a query to display the following for those employees 
+whose manager ID is less than 120: 
+.Manager ID
+.Job ID and total salary for every job ID for employees who report to the same manager 
+.Total salary of those managers
+.Total salary of those managers, irrespective of the job IDs 
+
+Answer :SELECT manager_id,job_id,sum(salary)
+FROM employees
+WHERE manager_id < 120
+GROUP BY ROLLUP(manager_id,job_id);
+
+2. Observe the output from question 1. Write a query using the GROUPING function to determine 
+whether the NULL values in the columns corresponding to the GROUP BY expressions are caused by 
+the ROLLUP operation.
+
+Answer : SELECT manager_id MGR ,job_id JOB,
+sum(salary),GROUPING(manager_id),GROUPING(job_id)
+FROM employees
+WHERE manager_id < 120
+GROUP BY ROLLUP(manager_id,job_id);
+
+3. Write a query to display the following for those employees whose manager ID is 
+less than 120 :
+– Manager ID
+– Job and total salaries for every job for employees who report to the same manager
+– Total salary of those managers
+– Cross-tabulation values to display the total salary for every job, irrespective of the
+manager
+– Total salary irrespective of all job titles
+
+Answer : SELECT manager_id, job_id, sum(salary)
+FROM employees
+WHERE manager_id < 120
+GROUP BY CUBE(manager_id, job_id);
+
+4. Observe the output from question 3. Write a query using the GROUPING function to determine
+whether the NULL values in the columns corresponding to the GROUP BY expressions are
+caused by the CUBE operation.
+
+Answer : SELECT manager_id MGR ,job_id JOB,
+sum(salary),GROUPING(manager_id),GROUPING(job_id)
+FROM employees
+WHERE manager_id < 120
+GROUP BY CUBE(manager_id,job_id);
+
+5. Using GROUPING SETS, write a query to display the following groupings : 
+– department_id, manager_id, job_id
+– department_id, job_id
+– Manager_id, job_id
+The query should calculate the sum of the salaries for each of these groups.
+
+Answer : SELECT department_id, manager_id, job_id, SUM(salary)
+FROM employees
+GROUP BY 
+GROUPING SETS ((department_id, manager_id, job_id),
+(department_id, job_id),(manager_id,job_id));
+
+
+
+					Chapter	18 
+
+
+1. Write a query to display the last name, department number, and salary of any employee whose 
+department number and salary both match the department number and salary of any employee who 
+earns a commission.
+
+Answer : SELECT last_name, department_id, salary
+FROM employees
+WHERE (salary, department_id) IN 
+(SELECT salary, department_id
+FROM employees
+WHERE commission_pct IS NOT NULL);
+
+2. Display the last name, department name, and salary of any employee whose salary and commission 
+match the salary and commission of any employee located in location ID1700.
+
+Answer : SELECT last_name, department_name, salary
+FROM employees e, departments d
+WHERE e.department_id = d.department_id
+AND (salary, NVL(commission_pct,0)) IN 
+(SELECT salary, NVL(commission_pct,0)
+FROM employees e, departments d
+WHERE e.department_id = d.department_id
+AND d.location_id = 1700);
+
+3. Create a query to display the last name, hire date, and salary for all employees who have the same 
+salary and commission as Kochhar.
+
+Answer :SELECT last_name, hire_date, salary
+FROM employees
+WHERE (salary, NVL(commission_pct,0)) IN 
+(SELECT salary, NVL(commission_pct,0)
+FROM employees
+WHERE last_name = 'Kochhar')
+AND last_name != 'Kochhar';
+
+4. Create a query to display the employees who earn a salary that is higher than the salary of
+all of the sales managers (JOB_ID = 'SA_MAN'). Sort the results on salary from highest to 
+lowest.
+
+Answer : SELECT last_name, job_id, salary
+FROM employees
+WHERE salary > ALL 
+(SELECT salary
+FROM employees
+WHERE job_id = 'SA_MAN')
+ORDER BY salary DESC;
+
+5. Display the details of the employee ID, last name, and department ID of those employees who live 
+in cities whose name begins with T.
+
+Answer : SELECT employee_id, last_name, department_id
+FROM employees
+WHERE department_id IN (SELECT department_id
+FROM departments
+WHERE location_id IN
+(SELECT location_id
+FROM locations
+WHERE city LIKE 'T%'));
+
+6. Write a query to find all employees who earn more than the average salary in their departments.
+Display last name, salary, department ID, and the average salary for the department. Sort by average 
+salary. Use alises for the columns retrieved by the query as shown in the sample output.
+
+Answer : SELECT e.last_name ename, e.salary salary, 
+e.department_id deptno, AVG(a.salary) dept_ avg
+FROM employees e, employees a
+WHERE e.department_id = a.department_id
+AND e.salary > (SELECT AVG(salary)
+FROM employees
+WHERE department_id = e.department_id )
+GROUP BY e.last_name, e.salary, e.department_id
+ORDER BY AVG(a.salary);
+
+
+7. Find all employees who are not supervisors.
+
+Answer : a. First do this by using the NOT EXISTS operator.
+	SELECT outer.last_name
+FROM employees outer
+WHERE NOT EXISTS (SELECT 'X'
+FROM employees inner
+WHERE inner.manager_id = 
+outer.employee_id);
+
+Answer : b. Can this be done by using the NOT IN operator? How, or why not?
+SELECT outer.last_name
+FROM employees outer
+WHERE outer.employee_id 
+NOT IN (SELECT inner.manager_id
+FROM employees inner);
+This alternative solution is not a good one. The subquery picks up a NULL value, so the entire 
+query returns no rows. The reason is that all conditions that compare a NULL value result in 
+NULL. Whenever NULL values are likely to be part of the value set, do not use NOT IN as a 
+substitute for NOT EXISTS.
+
+8. Write a query to display the last names of the employees who earn less than the average salary in 
+their departments.
+
+Answer : SELECT last_name
+FROM employees outer
+WHERE outer.salary < (SELECT AVG(inner.salary)
+FROM employees inner
+WHERE inner.department_id 
+= outer.department_id);
+
+9. Write a query to display the last names who have one or more coworkers in their departments with 
+later hire dates but higher salaries.
+
+Answer : SELECT last_name
+FROM employees outer
+WHERE EXISTS (SELECT 'X'
+FROM employees inner
+WHERE inner.department_id = 
+outer.department_id
+AND inner.hire_date > outer.hire_date
+AND inner.salary > outer.salary);
+
+10. Write a query to display the employee ID, last names of the employees, and department names of all 
+employees.
+
+Answer : SELECT employee_id, last_name, 
+(SELECT department_name
+FROM departments d
+WHERE e.department_id =
+d.department_id ) department
+FROM employees e
+ORDER BY department;
+
+11. Write a query to display the department names of those departments whose total salary cost is above 
+one-eighth (1/8) of the total salary cost of the whole company. Use the WITH clause to write this 
+query. Name the query SUMMARY.
+
+
+Answer : 9SELECT department_name, SUM(salary) AS dept_total
+FROM employees, departments
+WHERE employees.department_id =
+departments.department_id
+GROUP BY department_name)
+SELECT department_name, dept_total
+FROM summary
+WHERE dept_total > (
+SELECT SUM(dept_total) * 1/8
+FROM summary)
+ORDER BY dept_total DESC;
