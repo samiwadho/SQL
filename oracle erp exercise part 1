@@ -235,18 +235,24 @@ FROM employees;
 1. 	Write a query to display the last name, department number, and department name for all employees. 
 
 Answer:		select e.last_name,e.department_id,d.department_name
-from employees e, departments d;
+		from employees e, departments d
+		where e.department_id=d.department_id
 
 2.	Create a unique listing of all jobs that are in department 80. Include the location of the department in the output.
 
 Answer:	select distinct(e.job_id),l.location_id
-from employees e, locations l
-where e.department_id =80;
+from employees e, departments d
+where e.department_id=d.department_id
+and d.department_id=8
 
 3. 	Write a query to display the employee last name, department name, location ID, and city of all employees who earn a commission.
 
-Answer:	select e.last_name,d.department_name,l.location_id,city
-from employees e, locations l,departments d;
+Answer:	select e.last_name,d.department_name,l.location_id,l.city
+from employees e,departments d,locations l
+where e.department_id=d.department_id
+and d.location_id=l.location_id
+and e.commission_pct is not null;
+
 
 4.	Display the employee last name and department name for all employees who have an a (lowercase) in their last names. 
 Place your SQL statement in a text file named lab4_4.sql.
