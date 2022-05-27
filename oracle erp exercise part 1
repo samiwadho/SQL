@@ -381,7 +381,7 @@ FROM employees
 WHERE department_id = (SELECT department_id
 FROM employees
 WHERE last_name = 'Zlotkey')
-AND last_nae <> 'Zlotkey';
+AND last_name <> 'Zlotkey';
 
 2. Create a query to display the employee numbers and last names of all employees who earn more than 
 the average salary. Sort the results in descending order of salary.
@@ -398,11 +398,12 @@ Answer:	SELECT employee_id, last_name
 FROM employees
 WHERE department_id IN (SELECT department_id
 FROM employees
-WHERE last_name like '%u%');
+WHERE last_name like '%a%'
+and last_name like'%u%');
 
 4. Display the last name, department number, and job ID of all employees whose department location ID is 1700.
 
-Answer: ELECT last_name, department_id, job_id
+Answer: SELECT last_name, department_id, job_id
 FROM employees
 WHERE department_id IN (SELECT department_id
 FROM departments
@@ -412,7 +413,7 @@ WHERE location_id = 1700);
 
 Answer:SELECT last_name, salary
 FROM employees
-WHERE manager_id = (SELECT employee_id
+WHERE manager_id in (SELECT employee_id
 FROM employees
 WHERE last_name = 'King');
 
