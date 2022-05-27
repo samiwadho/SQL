@@ -323,9 +323,9 @@ group by job_id;
 7.	Determine the number of managers without listing them. Label the column Number of
 	Managers. Hint: Use the MANAGER_ID column to determine the number of managers.
 
-Answer: 	select manager_id "number of managers",COUNT(*)
-FROM EMPLOYEES
-GROUP BY manager_id;
+Answer: 	select manager_id "number of managers"
+		FROM EMPLOYEES
+		
 
 8.	Write a query that displays the difference between the highest and lowest salaries. Label the column DIFFERENCE.
 
@@ -357,7 +357,7 @@ GROUP BY d.department_name, d.location_id;
 11.	Create a query that will display the total number of employees and, of that total, 
 the number of 	employees hired in 1995, 1996, 1997, and 1998. Create appropriate column headings.
 
-Answer: ELECT COUNT(*) total,
+Answer: SELECT COUNT(*) total,
 SUM(DECODE(TO_CHAR(hire_date, 'YYYY'),1995,1,0))"1 995",SUM(DECODE(TO_CHAR(hire_date, 'YYYY'),1996,1,0))"1 996",
 SUM(DECODE(TO_CHAR(hire_date, 'YYYY'),1997,1,0))"1 997",SUM(DECODE(TO_CHAR(hire_date, 'YYYY'),1998,1,0))"1 998"
 FROM employees;
